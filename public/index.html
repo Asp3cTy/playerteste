@@ -21,22 +21,28 @@
             </a>
         </header>
 
-        <!-- Seção de Destaque -->
         <section class="featured">
             <h2 class="text-xl font-bold flex items-center">
                 <span class="mr-2">🔥 Em Alta</span>
             </h2>
             <div class="carousel flex flex-wrap gap-4 p-2">
                 <div class="video-thumbnail bg-gray-800 p-4 rounded-lg shadow-lg cursor-pointer transform hover:scale-105 transition-all w-48"
-                     v-for="video in videos" :key="video.id" @click="playVideo(video)">
+                     v-for="video in videos" :key="video.id">
                      
                     <!-- Nome do Arquivo no Card -->
-                    <div class="text-center text-sm font-semibold p-4 bg-gray-700 rounded-lg">
+                    <div class="text-center text-sm font-semibold p-4 bg-gray-700 rounded-lg cursor-pointer" @click="playVideo(video)">
                         {{ video.filename.toUpperCase() }}
                     </div>
+        
+                    <!-- Botão de Excluir -->
+                    <button class="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-4 rounded-lg mt-2 w-full transition duration-300"
+                            @click="deleteVideo(video.id, video.filename)">
+                        🗑️ Excluir
+                    </button>
                 </div>
             </div>
         </section>
+        
 
 <!-- Player de Vídeo -->
 <div v-show="currentVideo" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-90 z-50">
