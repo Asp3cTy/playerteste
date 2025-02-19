@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Streaming de Vídeos</title>
+    
+    <!-- Estilos -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Video.js (CDN) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.20.3/video-js.min.css" rel="stylesheet">
+</head>
+<body>
+    <div id="app">
+        <!-- Header Estilo Netflix -->
+        <header>
+            <h1>🎬 MyFlix</h1>
+        </header>
+
+        <!-- Seção de Destaque -->
+        <section class="featured">
+            <h2>🔥 Em Alta</h2>
+            <div class="carousel">
+                <div class="video-thumbnail" v-for="video in videos" :key="video" @click="playVideo(video)">
+                    <img :src="'thumbnails/' + video + '.jpg'" :alt="video">
+                    <div class="overlay">
+                        <h3>{{ video }}</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+<!-- Container do Player -->
+<!-- Container do Player -->
+<div v-if="currentVideo" class="player-container" id="videoContainer">
+    <video id="videoPlayer" class="video-js vjs-default-skin" controls preload="auto"></video>
+</div>
+
+
+
+    <!-- Vue.js -->
+    <script src="https://unpkg.com/vue@3"></script>
+
+    <!-- Video.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.20.3/video.min.js"></script>
+
+    <!-- Scripts -->
+    <script src="app.js"></script>
+    <script src="video-player.js"></script>
+</body>
+</html>
