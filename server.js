@@ -66,4 +66,34 @@ app.post('/upload', upload.single('video'), (req, res) => {
     });
 });
 
+app.delete('/delete/:id', (req, res) => {
+    const videoId = req.params.id;
+
+    // Buscar o nome do arquivo antes de excluir do banco
+    db.get("SELECT filename FROM videos WHERE id = ?", [videoId], (err, row) => {
+        if (err || !row) {
+            return res.status(404).json({ success: false, error: "Vídeo não encontrado." });
+        }
+
+        const filePath = path.join(VIDEO_DIR, row.filename);
+
+        // Excluir o vídeo do disco
+        fs.unlink(filePath, (err) => {
+            if (err) {
+                return res.status(500).json({ success: false, error: "Erro ao excluir o arquivo." });
+            }
+
+            // Excluir do banco de dados
+            db.run("DELETE FROM videos WHERE id = ?", [videoId], (err) => {
+                if (err) {
+                    return res.status(500).json({ success: false, error: "Erro ao excluir do banco de dados." });
+                }
+                res.json({ success: true, message: "Vídeo excluído com sucesso!" });
+            });
+        });
+    });
+});
+
+
+
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
