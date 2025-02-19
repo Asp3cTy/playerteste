@@ -1,0 +1,111 @@
+/* Estilo Geral */
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #141414;
+    color: white;
+    margin: 0;
+}
+
+/* Header Estilo Netflix */
+header {
+    background: black;
+    padding: 20px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Seção de Destaque */
+.featured {
+    margin: 20px;
+    text-align: left;
+    padding-left: 30px;
+}
+
+/* Carrossel de Vídeos */
+.carousel {
+    display: flex;
+    overflow-x: auto;
+    gap: 10px;
+    padding: 20px;
+}
+
+.video-thumbnail {
+    position: relative;
+    width: 200px;
+    height: 300px; /* Ajuste a altura para exibir a imagem completa */
+    cursor: pointer;
+    transition: transform 0.3s;
+    overflow: hidden;
+    border-radius: 8px;
+    background-color: black;
+}
+
+.video-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Mantém o aspecto correto da imagem */
+}
+
+
+.video-thumbnail:hover {
+    transform: scale(1.1);
+}
+
+/* Overlay ao passar o mouse */
+.overlay {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    text-align: center;
+    padding: 5px;
+    font-size: 14px;
+    visibility: hidden;
+}
+
+.video-thumbnail:hover .overlay {
+    visibility: visible;
+}
+
+/* Estilização do Player */
+.player-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.9);
+    padding: 10px;
+    border-radius: 10px;
+    z-index: 1000;
+    width: 80vw;
+    max-width: 1000px;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: red;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+/* Garante que o player fique 100% da tela no fullscreen */
+.fullscreen-active .video-js {
+    width: 100vw !important;
+    height: 100vh !important;
+}
+
+/* Remove qualquer margem ou padding extra no fullscreen */
+.fullscreen-active body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: black;
+}
