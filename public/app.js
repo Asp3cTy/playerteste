@@ -8,25 +8,59 @@ createApp({
         };
     },
     methods: {
-        fetchVideos() {
-            fetch('http://localhost:3000/videos')
-                .then(response => response.json())
-                .then(data => this.videos = data)
-                .catch(error => console.error("Erro ao carregar os vídeos:", error));
+        async fetchVideos() {
+            try {
+                const response = await fetch('/videos');
+                const data = await response.json();
+                this.videos = data;
+            } catch (error) {
+                console.error("Erro ao carregar os vídeos:", error);
+            }
         },
         playVideo(video) {
-            this.currentVideo = video;
-            loadVideo(video);
-        },
-        closePlayer() {
-            if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
-                document.exitFullscreen();
-            } else {
-                if (window.player) {
-                    window.player.dispose();
-                    window.player = null;
+            console.log("Tentando abrir vídeo:", video.filename);
+        
+            if (!video.filename) {
+                console.error("Erro: Nenhum arquivo encontrado para o vídeo.");
+                return;
+            }
+        
+            this.currentVideo = video.filename;
+        
+            setTimeout(() => {
+                const player = document.getElementById("videoPlayer");
+        
+                if (!player) {
+                    console.error("❌ Elemento de vídeo ainda não foi encontrado no DOM!");
+                    return;
                 }
-                this.currentVideo = null; // Reseta a variável para permitir abrir novamente
+        
+                player.src = `/video/${video.filename}`;
+        
+                player.play()
+                    .then(() => {
+                        // Entrar em fullscreen automaticamente
+                        if (player.requestFullscreen) {
+                            player.requestFullscreen();
+                        } else if (player.mozRequestFullScreen) { // Firefox
+                            player.mozRequestFullScreen();
+                        } else if (player.webkitRequestFullscreen) { // Chrome, Safari e Opera
+                            player.webkitRequestFullscreen();
+                        } else if (player.msRequestFullscreen) { // Internet Explorer
+                            player.msRequestFullscreen();
+                        }
+                    })
+                    .catch(err => console.error("Erro ao reproduzir vídeo:", err));
+            }, 100); // Pequeno delay para garantir que o Vue aplicou a mudança
+        }
+        
+        ,
+        closePlayer() {
+            this.currentVideo = null;
+            const player = document.getElementById("videoPlayer");
+            if (player) {
+                player.pause();
+                player.src = "";
             }
         }
     },
