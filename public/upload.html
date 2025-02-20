@@ -3,25 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enviar Vídeo</title>
+    <title>Upload de Vídeos</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-900 text-white flex justify-center items-center h-screen">
-    <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-96">
-        <h2 class="text-lg font-semibold flex items-center justify-center">📤 Enviar Vídeo</h2>
+    <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-96 text-center">
+        <h2 class="text-2xl font-bold mb-4">📤 Enviar Vídeo</h2>
+        
+        <input type="file" id="videoFile" class="block w-full text-sm text-gray-300 mb-4" />
+        
+        <progress id="uploadProgress" value="0" max="100" class="w-full mb-4 bg-gray-700"></progress>
+        <span id="progressText">0%</span>
 
-        <!-- Input do Arquivo -->
-        <input id="fileInput" type="file" class="mt-4 w-full p-2 bg-gray-700 rounded" />
-
-        <!-- Barra de Progresso -->
-        <progress id="progressBar" value="0" max="100" class="w-full mt-4"></progress>
-
-        <!-- Botão de Upload -->
-        <button id="uploadButton" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg w-full mt-4">
+        <button onclick="startUpload()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">
             📤 Enviar
         </button>
 
-        <a href="index.html" class="block text-center text-sm mt-4 text-gray-400 hover:text-gray-200">← Voltar para a lista de vídeos</a>
+        <p class="mt-4 text-sm text-gray-400">
+            ← <a href="index.html" class="text-blue-400">Voltar para a lista de vídeos</a>
+        </p>
     </div>
 
     <script src="upload.js"></script>
