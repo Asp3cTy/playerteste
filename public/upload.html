@@ -3,93 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload de Vídeos</title>
-    <script src="https://unpkg.com/vue@3"></script>
+    <title>Enviar Vídeo</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-900 text-white flex items-center justify-center min-h-screen">
-    <div id="app" class="bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-md">
-        <h1 class="text-xl font-bold text-center mb-4">📤 Upload de Vídeos</h1>
-        
-        <input type="file" id="videoFile" accept="video/*" class="block w-full mb-4 p-2 bg-gray-700 border border-gray-600 rounded">
-        <button @click="uploadVideo" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded w-full">Enviar</button>
+<body class="bg-gray-900 text-white flex justify-center items-center h-screen">
+    <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-96">
+        <h2 class="text-lg font-semibold flex items-center justify-center">📤 Enviar Vídeo</h2>
+
+        <!-- Input do Arquivo -->
+        <input id="fileInput" type="file" class="mt-4 w-full p-2 bg-gray-700 rounded" />
 
         <!-- Barra de Progresso -->
-        <div v-if="uploading" class="mt-4">
-            <div class="relative w-full h-4 bg-gray-600 rounded overflow-hidden">
-                <div class="absolute top-0 left-0 h-full bg-green-500 transition-all" :style="{ width: progress + '%' }"></div>
-            </div>
-            <p class="text-center mt-2 text-sm">{{ progress }}% Enviado</p>
-        </div>
+        <progress id="progressBar" value="0" max="100" class="w-full mt-4"></progress>
 
-        <p v-if="message" :class="messageClass" class="mt-4 text-center font-semibold">{{ message }}</p>
+        <!-- Botão de Upload -->
+        <button id="uploadButton" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg w-full mt-4">
+            📤 Enviar
+        </button>
 
-        <a href="/" class="block text-center mt-4 text-blue-400 hover:underline">🔙 Voltar para Home</a>
+        <a href="index.html" class="block text-center text-sm mt-4 text-gray-400 hover:text-gray-200">← Voltar para a lista de vídeos</a>
     </div>
 
-    <script>
-        const { createApp } = Vue;
-
-        createApp({
-            data() {
-                return {
-                    uploading: false,
-                    progress: 0,
-                    message: '',
-                    messageClass: ''
-                };
-            },
-            methods: {
-                uploadVideo() {
-                    const fileInput = document.getElementById("videoFile");
-                    if (fileInput.files.length === 0) {
-                        this.message = "Por favor, selecione um arquivo!";
-                        this.messageClass = "text-red-400";
-                        return;
-                    }
-
-                    const file = fileInput.files[0];
-                    const formData = new FormData();
-                    formData.append("video", file);
-
-                    this.uploading = true;
-                    this.progress = 0;
-                    this.message = "Enviando...";
-                    this.messageClass = "text-blue-400";
-
-                    const xhr = new XMLHttpRequest();
-                    xhr.open("POST", "/upload", true);
-
-                    // Atualiza a barra de progresso
-                    xhr.upload.onprogress = (event) => {
-                        if (event.lengthComputable) {
-                            this.progress = Math.round((event.loaded / event.total) * 100);
-                        }
-                    };
-
-                    xhr.onload = () => {
-                        this.uploading = false;
-                        if (xhr.status === 200) {
-                            this.message = "Upload concluído com sucesso!";
-                            this.messageClass = "text-green-400";
-                            fileInput.value = "";
-                            this.progress = 100;
-                        } else {
-                            this.message = "Erro ao enviar o vídeo!";
-                            this.messageClass = "text-red-400";
-                        }
-                    };
-
-                    xhr.onerror = () => {
-                        this.uploading = false;
-                        this.message = "Erro na conexão!";
-                        this.messageClass = "text-red-400";
-                    };
-
-                    xhr.send(formData);
-                }
-            }
-        }).mount("#app");
-    </script>
+    <script src="upload.js"></script>
 </body>
 </html>
